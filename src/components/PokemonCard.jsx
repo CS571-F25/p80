@@ -19,10 +19,12 @@ const PokemonCard = (props) => {
       }
 
       setSelectedPokemon((prev) => [...prev, id]);
+      alert("Selected Pokémon");
     } else {
       const filtered = selectedPokemon.filter((p) => p !== id);
 
       setSelectedPokemon(filtered);
+      alert("Removed Pokémon from team");
     }
   };
   const typeColors = {
