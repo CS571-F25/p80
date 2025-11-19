@@ -1,29 +1,20 @@
 import "./App.css";
-import PokemonCard from "./components/PokemonCard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PokemonLayout from "./components/PokemonLayout";
 import PokemonLandingPage from "./components/PokemonLandingPage";
 import PokemonSelection from "./components/PokemonSelection";
 import PokemonTeam from "./components/PokemonTeam";
 import PokemonNotFoundPage from "./components/PokemonNotFoundPage";
+import PokemonContext from "./context/pokemonContext";
 import { useEffect, useState } from "react";
 
 function App() {
+  const [selectedPokemon, setSelectedPokemon] = useState([]);
   const [pokemon, setPokemon] = useState([]);
 
   useEffect(() => {
     getPokemon();
   }, []);
-
-  const getPokemon = async () => {
-    const res = await fetch(
-      "https://pokeapi.co/api/v2/pokemon?limit=200&offset=0"
-    );
-    const data = await res.json();
-
-    const promises = data.results.map((d) => individualPokemonInformation(d));
-    await Promise.all(promises);
-  };
 
   const individualPokemonInformation = async (d) => {
     try {
@@ -33,30 +24,52 @@ function App() {
       const data = await res.json();
 
       const p = {
+        id: id,
         name: d.name,
         imageSrc: data.sprites.front_default,
         types: data.types.map((t) => t.type.name),
       };
 
-      console.log(p);
-      setPokemon((prev) => [...prev, p]);
+      return p; // Return the pokemon instead of setting state here
     } catch (error) {
       console.error(`Error fetching pokemon ${d.name}:`, error);
+      return null;
     }
+  };
+
+  const getPokemon = async () => {
+    const res = await fetch(
+      "https://pokeapi.co/api/v2/pokemon?limit=200&offset=0"
+    );
+    const data = await res.json();
+
+    const promises = data.results.map((d) => individualPokemonInformation(d));
+    const results = await Promise.all(promises);
+
+    const validPokemon = results.filter((p) => p !== null);
+    setPokemon(validPokemon);
   };
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PokemonLayout />}>
-            <Route path="/p80" element={<PokemonLandingPage />} />
-            <Route path="choose-pokemon" element={<PokemonSelection />} />
-            <Route path="view-pokemon-team" element={<PokemonTeam />} />
-            <Route path="*" element={<PokemonNotFoundPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <PokemonContext.Provider value={[selectedPokemon, setSelectedPokemon]}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<PokemonLayout />}>
+              <Route index element={<PokemonLandingPage />} />
+              <Route
+                path="choose-pokemon"
+                element={<PokemonSelection pokemon={pokemon} />}
+              />
+              <Route
+                path="view-pokemon-team"
+                element={<PokemonTeam pokemon={pokemon} />}
+              />
+              <Route path="*" element={<PokemonNotFoundPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </PokemonContext.Provider>
     </div>
   );
 }
