@@ -57,6 +57,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PokemonLayout />}>
               <Route index element={<PokemonLandingPage />} />
+              <Route path="p80" element={<PokemonLandingPage />} />
               <Route
                 path="choose-pokemon"
                 element={<PokemonSelection pokemon={pokemon} />}
