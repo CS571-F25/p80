@@ -42,7 +42,6 @@ const icons = [
 const PokemonLandingPage = () => {
   const radius = 350;
   const totalIcons = icons.length;
-
   const getCirclePosition = (index) => {
     const angle = (index * 360) / totalIcons - 90;
     const radian = (angle * Math.PI) / 180;
@@ -52,30 +51,79 @@ const PokemonLandingPage = () => {
   };
 
   return (
-    <div className="landing-page-container">
-      <div className="text-center">
-        <h1 className="landing-title">Welcome to PokeWorld!</h1>
-        <h3 className="landing-subtitle">Build the team of your dreams</h3>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+          background-color: #000000;
+        }
+
+        .landing-title,
+        .landing-subtitle {
+          font-family: 'Press Start 2P';
+          color: #ffffff;
+          text-shadow:
+            0 0 2px #fff,
+            0 0 2px #fff,
+            0 0 10px #5b2e87,
+            0 0 20px #5b2e87,
+            0 0 30px #5b2e87,
+            0 0 40px #5b2e87;
+        }
+        @keyframes rotateCircle {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .landing-page-container {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+
+        .icons-circle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: 0px;
+          margin-top: 0px;
+          animation: rotateCircle 20s linear infinite;
+        }
+      `}</style>
+
+      <div className="landing-page-container">
+        <div className="text-center">
+          <h1 className="landing-title" style={{ fontSize: "25px" }}>Welcome to PokeWorld!</h1>
+          <h3 className="landing-subtitle" style={{ fontSize: "15px" }}>Build the team of your dreams</h3>
+        </div>
+
+        <div className="icons-circle rotate-ring">
+          {icons.map((icon) => {
+            const { x, y } = getCirclePosition(icon.index);
+            return (
+              <div
+                key={icon.index}
+                className={`icon circle-icon ${icon.className}`}
+                style={{
+                  "--x": `${x}px`,
+                  "--y": `${y}px`,
+                }}
+              >
+                <img src={icon.src} alt={icon.alt} />
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <div className="icons-circle">
-        {icons.map((icon) => {
-          const { x, y } = getCirclePosition(icon.index);
-          return (
-            <div
-              key={icon.index}
-              className={`icon circle-icon ${icon.className}`}
-              style={{
-                "--icon-index": icon.index,
-                "--x": `${x}px`,
-                "--y": `${y}px`,
-              }}
-            >
-              <img src={icon.src} alt={icon.alt} />
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 };
 

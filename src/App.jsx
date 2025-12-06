@@ -6,6 +6,7 @@ import PokemonSelection from "./components/PokemonSelection";
 import PokemonTeam from "./components/PokemonTeam";
 import PokemonNotFoundPage from "./components/PokemonNotFoundPage";
 import PokemonContext from "./context/pokemonContext";
+import PokemonBattle from "./components/PokemonBattle";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -19,18 +20,23 @@ function App() {
   const individualPokemonInformation = async (d) => {
     try {
       const id = d.url.split("/").filter(Boolean).pop();
-
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon-form/${id}/`);
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
       const data = await res.json();
 
       const p = {
         id: id,
         name: d.name,
-        imageSrc: data.sprites.front_default,
+        imageSrc: data.sprites.other['official-artwork'].front_default || data.sprites.front_default,
         types: data.types.map((t) => t.type.name),
+        hp: data.stats.find(s => s.stat.name === 'hp')?.base_stat || 0,
+        attack: data.stats.find(s => s.stat.name === 'attack')?.base_stat || 0,
+        defense: data.stats.find(s => s.stat.name === 'defense')?.base_stat || 0,
+        specialAttack: data.stats.find(s => s.stat.name === 'special-attack')?.base_stat || 0,
+        specialDefense: data.stats.find(s => s.stat.name === 'special-defense')?.base_stat || 0,
+        speed: data.stats.find(s => s.stat.name === 'speed')?.base_stat || 0,
       };
 
-      return p; // Return the pokemon instead of setting state here
+      return p;
     } catch (error) {
       console.error(`Error fetching pokemon ${d.name}:`, error);
       return null;
@@ -66,6 +72,10 @@ function App() {
                 path="view-pokemon-team"
                 element={<PokemonTeam pokemon={pokemon} />}
               />
+              <Route
+                path="battle"
+                element={<PokemonBattle pokemon={pokemon} />}
+              />
               <Route path="*" element={<PokemonNotFoundPage />} />
             </Route>
           </Routes>
@@ -74,5 +84,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

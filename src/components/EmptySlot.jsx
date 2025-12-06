@@ -3,50 +3,39 @@ import { Card } from "react-bootstrap";
 
 const EmptySlot = () => {
   return (
-    <Card
-      style={{
-        width: "280px",
-        height: "450px",
-        margin: "15px",
-        border: "5px dashed #999",
-        borderRadius: "15px",
-        overflow: "hidden",
-        fontFamily: "'Arial', sans-serif",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Card.Body
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "20px",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: "60px",
-              marginBottom: "15px",
-              opacity: "0.3",
-            }}
-          ></div>
-          <p
-            style={{
-              color: "#999",
-              fontSize: "16px",
-              fontWeight: "500",
-              margin: 0,
-            }}
-          >
+    <>
+      <style>{`
+        .empty-slot-card {
+          width: 280px;                 
+          height: 460px;                
+          background: rgba(0, 0, 0, 0.6);
+          border: 3px dashed #8a42d8;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          box-shadow: 0 0 10px #8a42d8aa;
+          font-family: 'Press Start 2P', cursive;
+          color: #c8a8ff;
+          margin: 15px 0 15px 0;
+        }
+
+        .empty-slot-text {
+          font-size: 12px;
+          opacity: 0.8;
+          line-height: 1.4;
+        }
+      `}</style>
+
+      <Card className="empty-slot-card">
+        <Card.Body>
+          <p className="empty-slot-text">
             Add Pokémon to fill this slot
           </p>
-        </div>
-      </Card.Body>
-    </Card>
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 
