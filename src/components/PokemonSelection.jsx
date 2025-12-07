@@ -2,26 +2,60 @@ import React from "react";
 import PokemonCard from "./PokemonCard";
 import { useEffect, useState, useContext } from "react";
 import PokemonContext from "../context/pokemonContext";
-import { Container, Row, Col, Pagination } from "react-bootstrap";
+import { Container, Row, Col, Pagination, Form } from "react-bootstrap";
 
 const PokemonSelection = ({ pokemon }) => {
   const [selectedPokemon, setSelectedPokemon] = useContext(PokemonContext);
   const [pokemonToDisplay, setPokemonToDisplay] = useState([]);
+  const [targetType, setTargetType] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
 
+  const weaknesses = {
+    normal: ["fighting"],
+    fire: ["water", "ground", "rock"],
+    water: ["electric", "grass"],
+    electric: ["ground"],
+    grass: ["fire", "ice", "poison", "flying", "bug"],
+    ice: ["fire", "fighting", "rock", "steel"],
+    fighting: ["flying", "psychic", "fairy"],
+    poison: ["ground", "psychic"],
+    ground: ["water", "grass", "ice"],
+    flying: ["electric", "ice", "rock"],
+    psychic: ["bug", "ghost", "dark"],
+    bug: ["fire", "flying", "rock"],
+    rock: ["water", "grass", "fighting", "ground", "steel"],
+    ghost: ["ghost", "dark"],
+    dragon: ["ice", "dragon", "fairy"],
+    dark: ["fighting", "bug", "fairy"],
+    steel: ["fire", "fighting", "ground"],
+    fairy: ["poison", "steel"],
+  };
+
   const filteredPokemon = () => {
-    const newFilter = pokemon.filter(
+    let newFilter = pokemon.filter(
       (p) => !selectedPokemon.some((s) => s === p.id)
     );
+
+    if (targetType) {
+      const effectiveTypes = weaknesses[targetType.toLowerCase()];
+      if (effectiveTypes) {
+        newFilter = newFilter.filter(
+          (p) =>
+            p.types &&
+            p.types.some((t) => effectiveTypes.includes(t.toLowerCase()))
+        );
+      }
+    }
+
     setPokemonToDisplay(newFilter);
   };
 
   useEffect(() => {
     filteredPokemon();
     setCurrentPage(1);
-  }, [pokemon, selectedPokemon]);
+  }, [pokemon, selectedPokemon, targetType]);
 
   const totalPages = Math.ceil(pokemonToDisplay.length / pageSize);
   const startIdx = (currentPage - 1) * pageSize;
@@ -74,10 +108,52 @@ const PokemonSelection = ({ pokemon }) => {
           opacity: 0.5 !important;
           cursor: not-allowed !important;
         }
+
+        .type-select {
+          font-family: 'Press Start 2P', cursive !important;
+          font-size: 12px !important;
+          background: rgba(0, 0, 0, 0.6) !important;
+          color: #d19cff !important;
+          border: 2px solid #8a42d8 !important;
+          box-shadow: 0 0 8px #8a42d8 !important;
+          padding: 10px !important;
+          border-radius: 8px !important;
+        }
+
+        .type-select:focus {
+          box-shadow: 0 0 15px #d19cff !important;
+          border-color: #d19cff !important;
+          outline: none !important;
+          background: rgba(0, 0, 0, 0.6) !important;
+          color: #d19cff !important;
+        }
+
+        .type-select option {
+          background: #000000;
+          color: #d19cff;
+        }
       `}</style>
 
       <div>
         <Container>
+          <Row style={{ display: "flex", justifyContent: "center", marginBottom: "30px", marginTop: "20px" }}>
+            <Col xs={12} sm={12} md={6} lg={4} style={{ textAlign: "center" }}>
+              <Form.Select
+                className="type-select"
+                value={targetType}
+                onChange={(e) => setTargetType(e.target.value)}
+              >
+                <option value="">Show All Pokemon</option>
+                <option disabled>--- Find Counter For ---</option>
+                {Object.keys(weaknesses).sort().map((t) => (
+                  <option key={t} value={t}>
+                    {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Row>
+
           <Row
             style={{
               display: "flex",
