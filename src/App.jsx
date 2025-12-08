@@ -7,6 +7,9 @@ import PokemonTeam from "./components/PokemonTeam";
 import PokemonNotFoundPage from "./components/PokemonNotFoundPage";
 import PokemonContext from "./context/pokemonContext";
 import PokemonBattle from "./components/PokemonBattle";
+import BattleHistory from "./components/BattleHistory";
+import RandomTeamGenerator from "./components/RandomTeamGenerator";
+import PokemonTypeMatchupChart from "./components/PokemonTypeMatchupChart";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -75,6 +78,18 @@ function App() {
               <Route
                 path="battle"
                 element={<PokemonBattle pokemon={pokemon} />}
+              />
+              <Route
+                path="battle-history"
+                element={<BattleHistory />}
+              />
+              <Route
+                path="random-team"
+                element={<RandomTeamGenerator pokemon={pokemon} />}
+              />
+              <Route
+                path="type-matchups"
+                element={<PokemonTypeMatchupChart />}
               />
               <Route path="*" element={<PokemonNotFoundPage />} />
             </Route>

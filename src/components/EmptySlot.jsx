@@ -5,12 +5,12 @@ const EmptySlot = () => {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         .empty-slot-card {
-          width: 280px;                 
-          height: 460px;                
-          background: rgba(0, 0, 0, 0.6);
-          border: 3px dashed #8a42d8;
-          border-radius: 16px;
+          width: 280px;
+          height: 500px;
+          margin: 15px;
           display: flex;
           align-items: center;
           justify-content: center;

@@ -23,6 +23,20 @@ const PokemonBattle = ({ pokemon }) => {
     }, 0);
   };
 
+  const saveBattleToHistory = (result, myStats, opponentStats) => {
+    const newBattle = {
+      id: Date.now(),
+      result,
+      myTeamStats: myStats,
+      opponentTeamStats: opponentStats,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+    };
+    const battleHistory = JSON.parse(localStorage.getItem("battleHistory")) || [];
+    battleHistory.unshift(newBattle);
+    localStorage.setItem("battleHistory", JSON.stringify(battleHistory));
+  };
+
   const startBattle = () => {
     if (myTeam.length === 0) {
       alert("You need to select at least one Pokemon to battle!");
@@ -48,13 +62,16 @@ const PokemonBattle = ({ pokemon }) => {
       setMyTeamStats(myStats);
       setOpponentTeamStats(opponentStats);
       setTimeout(() => {
+        let result;
         if (myStats > opponentStats) {
-          setBattleResult("win");
+          result = "win";
         } else if (myStats < opponentStats) {
-          setBattleResult("lose");
+          result = "lose";
         } else {
-          setBattleResult("tie");
+          result = "tie";
         }
+        setBattleResult(result);
+        saveBattleToHistory(result, myStats, opponentStats);
       }, 1000);
     }, 500);
   };

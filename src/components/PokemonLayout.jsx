@@ -86,6 +86,18 @@ const PokemonLayout = () => {
             >
               My Team
             </Nav.Link>
+
+            <Nav.Link as={Link} to="/battle-history" className="game-nav-link">
+              Battle History
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/random-team" className="game-nav-link">
+              Random Team
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/type-matchups" className="game-nav-link">
+              Type Chart
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
