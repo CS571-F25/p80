@@ -10,6 +10,7 @@ import PokemonBattle from "./components/PokemonBattle";
 import BattleHistory from "./components/BattleHistory";
 import RandomTeamGenerator from "./components/RandomTeamGenerator";
 import PokemonTypeMatchupChart from "./components/PokemonTypeMatchupChart";
+import Favorites from "./components/Favorites";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -90,6 +91,10 @@ function App() {
               <Route
                 path="type-matchups"
                 element={<PokemonTypeMatchupChart />}
+              />
+              <Route
+                path="favorites"
+                element={<Favorites pokemon={pokemon} />}
               />
               <Route path="*" element={<PokemonNotFoundPage />} />
             </Route>

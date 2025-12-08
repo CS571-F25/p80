@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const BattleHistory = () => {
   const [battleHistory, setBattleHistory] = useState([]);
@@ -16,21 +16,6 @@ const BattleHistory = () => {
     const losses = history.filter((b) => b.result === "lose").length;
     const ties = history.filter((b) => b.result === "tie").length;
     setStats({ wins, losses, ties });
-  };
-
-  const addBattle = (result, myTeamStats, opponentTeamStats) => {
-    const newBattle = {
-      id: Date.now(),
-      result,
-      myTeamStats,
-      opponentTeamStats,
-      date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
-    };
-    const updatedHistory = [newBattle, ...battleHistory];
-    setBattleHistory(updatedHistory);
-    localStorage.setItem("battleHistory", JSON.stringify(updatedHistory));
-    calculateStats(updatedHistory);
   };
 
   const clearHistory = () => {
@@ -170,15 +155,20 @@ const BattleHistory = () => {
           text-transform: uppercase;
         }
 
-        .clear-btn:hover {
+        .clear-btn:hover:not(:disabled) {
           background: rgba(244, 67, 54, 0.4);
           box-shadow: 0 0 15px #f44336;
+        }
+
+        .clear-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
       `}</style>
 
       <div className="battle-history-container">
         <Container>
-          <h1 className="history-title">Battle History</h1>
+          <h1 className="history-title">⚔️ Battle History</h1>
 
           <Row>
             <Col md={3}>
@@ -211,35 +201,42 @@ const BattleHistory = () => {
             <Col>
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <button className="clear-btn" onClick={clearHistory} disabled={battleHistory.length === 0}>
-                  Clear History
+                  🗑️ Clear History
                 </button>
               </div>
 
               {battleHistory.length === 0 ? (
                 <div className="empty-state">
                   <p>No battles recorded yet.</p>
-                  <p>Go fight some battles!</p>
+                  <p>Go to "My Team" and click "⚔️ Battle Now!" to start fighting!</p>
                 </div>
               ) : (
-                battleHistory.map((battle) => (
-                  <div
-                    key={battle.id}
-                    className={`battle-entry battle-${battle.result}`}
-                  >
-                    <div>
-                      <div className={`battle-result ${battle.result}`}>
-                        {battle.result.toUpperCase()}
-                      </div>
-                      <div style={{ color: "#bbb", marginTop: "5px" }}>
-                        {battle.date} at {battle.time}
-                      </div>
-                    </div>
-                    <div style={{ textAlign: "right", color: "#d19cff" }}>
-                      <div>You: {battle.myTeamStats}</div>
-                      <div>Opponent: {battle.opponentTeamStats}</div>
-                    </div>
+                <div>
+                  <div style={{ color: "#d19cff", textAlign: "center", marginBottom: "20px", fontSize: "14px" }}>
+                    Latest {battleHistory.length} battle{battleHistory.length !== 1 ? 's' : ''}:
                   </div>
-                ))
+                  {battleHistory.map((battle) => (
+                    <div
+                      key={battle.id}
+                      className={`battle-entry battle-${battle.result}`}
+                    >
+                      <div>
+                        <div className={`battle-result ${battle.result}`}>
+                          {battle.result === "win" && "✓ VICTORY"}
+                          {battle.result === "lose" && "✗ DEFEAT"}
+                          {battle.result === "tie" && "= TIE"}
+                        </div>
+                        <div style={{ color: "#bbb", marginTop: "5px" }}>
+                          {battle.date} at {battle.time}
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right", color: "#d19cff" }}>
+                        <div>Your Stats: <strong>{battle.myTeamStats}</strong></div>
+                        <div>Opponent Stats: <strong>{battle.opponentTeamStats}</strong></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </Col>
           </Row>

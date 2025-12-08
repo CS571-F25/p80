@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useContext } from "react";
 import PokemonContext from "../context/pokemonContext";
@@ -6,6 +6,27 @@ import PokemonContext from "../context/pokemonContext";
 const PokemonCard = (props) => {
   const [selectedPokemon, setSelectedPokemon] = useContext(PokemonContext);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  useEffect(() => {
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setIsFavorited(savedFavorites.includes(props.id));
+  }, [props.id]);
+
+  const toggleFavorite = (e) => {
+    e.stopPropagation();
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    let updated;
+    
+    if (savedFavorites.includes(props.id)) {
+      updated = savedFavorites.filter((id) => id !== props.id);
+    } else {
+      updated = [...savedFavorites, props.id];
+    }
+    
+    setIsFavorited(!isFavorited);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
 
   const handleClick = (id) => {
     if (props.t === "Add Pokémon") {
@@ -293,6 +314,28 @@ const PokemonCard = (props) => {
           margin-top: 8px;
           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
+
+        .favorite-star {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: none;
+          border: none;
+          font-size: 28px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.8));
+          z-index: 10;
+        }
+
+        .favorite-star:hover {
+          filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+          transform: scale(1.15);
+        }
+
+        .favorite-star:active {
+          transform: scale(0.95);
+        }
       `}</style>
 
       <div className={`flip-card-container ${isFlipped ? 'flipped' : ''}`}>
@@ -305,6 +348,14 @@ const PokemonCard = (props) => {
                 background: getPrimaryTypeGradient(),
               }}
             >
+              <button
+                className="favorite-star"
+                onClick={toggleFavorite}
+                title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+              >
+                {isFavorited ? "★" : "☆"}
+              </button>
+
               <Card.Header
                 as="h5"
                 className="game-card-header"
@@ -392,6 +443,14 @@ const PokemonCard = (props) => {
                 background: getPrimaryTypeGradient(),
               }}
             >
+              <button
+                className="favorite-star"
+                onClick={toggleFavorite}
+                title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+              >
+                {isFavorited ? "★" : "☆"}
+              </button>
+
               <Card.Header
                 as="h5"
                 className="game-card-header"

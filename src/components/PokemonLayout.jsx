@@ -98,6 +98,10 @@ const PokemonLayout = () => {
             <Nav.Link as={Link} to="/type-matchups" className="game-nav-link">
               Type Chart
             </Nav.Link>
+
+            <Nav.Link as={Link} to="/favorites" className="game-nav-link">
+              ⭐ Favorites
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
