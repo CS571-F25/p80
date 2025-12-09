@@ -18,8 +18,15 @@ const PokemonBattle = ({ pokemon }) => {
 
   const calculateTotalStats = (team) => {
     return team.reduce((total, p) => {
-      return total + (p.hp || 0) + (p.attack || 0) + (p.defense || 0) +
-        (p.specialAttack || 0) + (p.specialDefense || 0) + (p.speed || 0);
+      return (
+        total +
+        (p.hp || 0) +
+        (p.attack || 0) +
+        (p.defense || 0) +
+        (p.specialAttack || 0) +
+        (p.specialDefense || 0) +
+        (p.speed || 0)
+      );
     }, 0);
   };
 
@@ -32,7 +39,8 @@ const PokemonBattle = ({ pokemon }) => {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString(),
     };
-    const battleHistory = JSON.parse(localStorage.getItem("battleHistory")) || [];
+    const battleHistory =
+      JSON.parse(localStorage.getItem("battleHistory")) || [];
     battleHistory.unshift(newBattle);
     localStorage.setItem("battleHistory", JSON.stringify(battleHistory));
   };
@@ -43,7 +51,9 @@ const PokemonBattle = ({ pokemon }) => {
       return;
     }
 
-    const availablePokemon = pokemon.filter((p) => !selectedPokemon.includes(p.id));
+    const availablePokemon = pokemon.filter(
+      (p) => !selectedPokemon.includes(p.id)
+    );
     const randomTeam = [];
 
     for (let i = 0; i < 6 && availablePokemon.length > 0; i++) {
@@ -237,11 +247,16 @@ const PokemonBattle = ({ pokemon }) => {
 
           {!isBattling ? (
             <div style={{ textAlign: "center", marginTop: "50px" }}>
-              <p style={{ color: "#d19cff", fontSize: "14px", marginBottom: "30px" }}>
+              <p
+                style={{
+                  color: "#d19cff",
+                  fontSize: "14px",
+                  marginBottom: "30px",
+                }}
+              >
                 {myTeam.length === 0
                   ? "Please build your team first."
-                  : `Your team: ${myTeam.length} Pokemon ready!`
-                }
+                  : `Your team: ${myTeam.length} Pokemon ready!`}
               </p>
               <Button
                 className="battle-btn"
@@ -274,7 +289,14 @@ const PokemonBattle = ({ pokemon }) => {
                   )}
                 </Col>
 
-                <Col md={2} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Col
+                  md={2}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <div className="vs-text">VS</div>
                 </Col>
 
