@@ -80,17 +80,12 @@ function App() {
   return (
     <div className="App">
       <PokemonContext.Provider value={[selectedPokemon, setSelectedPokemon]}>
-        <BrowserRouter>
+        <BrowserRouter basename="/p80">
           <Routes>
             <Route path="/" element={<PokemonLayout />}>
               <Route index element={<PokemonLandingPage />} />
-              <Route path="p80" element={<PokemonLandingPage />} />
               <Route
                 path="choose-pokemon"
-                element={<PokemonSelection pokemon={pokemon} />}
-              />
-              <Route
-                path="p80/choose-pokemon"
                 element={<PokemonSelection pokemon={pokemon} />}
               />
               <Route
@@ -98,25 +93,12 @@ function App() {
                 element={<PokemonTeam pokemon={pokemon} />}
               />
               <Route
-                path="p80/view-pokemon-team"
-                element={<PokemonTeam pokemon={pokemon} />}
-              />
-              <Route
                 path="battle"
                 element={<PokemonBattle pokemon={pokemon} />}
               />
-              <Route
-                path="p80/battle"
-                element={<PokemonBattle pokemon={pokemon} />}
-              />
               <Route path="battle-history" element={<BattleHistory />} />
-              <Route path="p80/battle-history" element={<BattleHistory />} />
               <Route
                 path="random-team"
-                element={<RandomTeamGenerator pokemon={pokemon} />}
-              />
-              <Route
-                path="p80/random-team"
                 element={<RandomTeamGenerator pokemon={pokemon} />}
               />
               <Route
@@ -124,15 +106,7 @@ function App() {
                 element={<PokemonTypeMatchupChart />}
               />
               <Route
-                path="p80/type-matchups"
-                element={<PokemonTypeMatchupChart />}
-              />
-              <Route
                 path="favorites"
-                element={<Favorites pokemon={pokemon} />}
-              />
-              <Route
-                path="p80/favorites"
                 element={<Favorites pokemon={pokemon} />}
               />
               <Route path="*" element={<PokemonNotFoundPage />} />

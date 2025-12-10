@@ -68,12 +68,28 @@ const PokemonTeam = ({ pokemon }) => {
 
         <Row style={{ justifyContent: "center" }}>
           {pokemonToDisplay.map((p) => (
-            <Col key={p.id} xs={12} sm={12} md={6} lg={4} xl={4} style={{ display: "flex", justifyContent: "center" }}>
+            <Col
+              key={p.id}
+              xs={12}
+              sm={12}
+              md={6}
+              lg={4}
+              xl={4}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <PokemonCard {...p} t={"Remove Pokémon"} />
             </Col>
           ))}
           {Array.from({ length: emptySlots }).map((_, index) => (
-            <Col key={`empty-${index}`} xs={12} sm={12} md={6} lg={4} xl={4} style={{ display: "flex", justifyContent: "center" }}>
+            <Col
+              key={`empty-${index}`}
+              xs={12}
+              sm={12}
+              md={6}
+              lg={4}
+              xl={4}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <EmptySlot />
             </Col>
           ))}
