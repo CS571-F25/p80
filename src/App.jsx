@@ -14,8 +14,17 @@ import Favorites from "./components/Favorites";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [selectedPokemon, setSelectedPokemon] = useState([]);
+  // Load selectedPokemon from localStorage on mount
+  const [selectedPokemon, setSelectedPokemon] = useState(() => {
+    const saved = localStorage.getItem("selectedPokemon");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [pokemon, setPokemon] = useState([]);
+
+  // Save selectedPokemon to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("selectedPokemon", JSON.stringify(selectedPokemon));
+  }, [selectedPokemon]);
 
   useEffect(() => {
     getPokemon();
@@ -30,14 +39,22 @@ function App() {
       const p = {
         id: id,
         name: d.name,
-        imageSrc: data.sprites.other['official-artwork'].front_default || data.sprites.front_default,
+        imageSrc:
+          data.sprites.other["official-artwork"].front_default ||
+          data.sprites.front_default,
         types: data.types.map((t) => t.type.name),
-        hp: data.stats.find(s => s.stat.name === 'hp')?.base_stat || 0,
-        attack: data.stats.find(s => s.stat.name === 'attack')?.base_stat || 0,
-        defense: data.stats.find(s => s.stat.name === 'defense')?.base_stat || 0,
-        specialAttack: data.stats.find(s => s.stat.name === 'special-attack')?.base_stat || 0,
-        specialDefense: data.stats.find(s => s.stat.name === 'special-defense')?.base_stat || 0,
-        speed: data.stats.find(s => s.stat.name === 'speed')?.base_stat || 0,
+        hp: data.stats.find((s) => s.stat.name === "hp")?.base_stat || 0,
+        attack:
+          data.stats.find((s) => s.stat.name === "attack")?.base_stat || 0,
+        defense:
+          data.stats.find((s) => s.stat.name === "defense")?.base_stat || 0,
+        specialAttack:
+          data.stats.find((s) => s.stat.name === "special-attack")?.base_stat ||
+          0,
+        specialDefense:
+          data.stats.find((s) => s.stat.name === "special-defense")
+            ?.base_stat || 0,
+        speed: data.stats.find((s) => s.stat.name === "speed")?.base_stat || 0,
       };
 
       return p;
@@ -73,7 +90,15 @@ function App() {
                 element={<PokemonSelection pokemon={pokemon} />}
               />
               <Route
+                path="p80/choose-pokemon"
+                element={<PokemonSelection pokemon={pokemon} />}
+              />
+              <Route
                 path="view-pokemon-team"
+                element={<PokemonTeam pokemon={pokemon} />}
+              />
+              <Route
+                path="p80/view-pokemon-team"
                 element={<PokemonTeam pokemon={pokemon} />}
               />
               <Route
@@ -81,11 +106,17 @@ function App() {
                 element={<PokemonBattle pokemon={pokemon} />}
               />
               <Route
-                path="battle-history"
-                element={<BattleHistory />}
+                path="p80/battle"
+                element={<PokemonBattle pokemon={pokemon} />}
               />
+              <Route path="battle-history" element={<BattleHistory />} />
+              <Route path="p80/battle-history" element={<BattleHistory />} />
               <Route
                 path="random-team"
+                element={<RandomTeamGenerator pokemon={pokemon} />}
+              />
+              <Route
+                path="p80/random-team"
                 element={<RandomTeamGenerator pokemon={pokemon} />}
               />
               <Route
@@ -93,7 +124,15 @@ function App() {
                 element={<PokemonTypeMatchupChart />}
               />
               <Route
+                path="p80/type-matchups"
+                element={<PokemonTypeMatchupChart />}
+              />
+              <Route
                 path="favorites"
+                element={<Favorites pokemon={pokemon} />}
+              />
+              <Route
+                path="p80/favorites"
                 element={<Favorites pokemon={pokemon} />}
               />
               <Route path="*" element={<PokemonNotFoundPage />} />

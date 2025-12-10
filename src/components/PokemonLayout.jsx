@@ -75,31 +75,43 @@ const PokemonLayout = () => {
               Home
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/choose-pokemon" className="game-nav-link">
+            <Nav.Link
+              as={Link}
+              to="/p80/choose-pokemon"
+              className="game-nav-link"
+            >
               Select Pokemon
             </Nav.Link>
 
             <Nav.Link
               as={Link}
-              to="/view-pokemon-team"
+              to="/p80/view-pokemon-team"
               className="game-nav-link"
             >
               My Team
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/battle-history" className="game-nav-link">
+            <Nav.Link
+              as={Link}
+              to="/p80/battle-history"
+              className="game-nav-link"
+            >
               Battle History
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/random-team" className="game-nav-link">
+            <Nav.Link as={Link} to="/p80/random-team" className="game-nav-link">
               Random Team
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/type-matchups" className="game-nav-link">
+            <Nav.Link
+              as={Link}
+              to="/p80/type-matchups"
+              className="game-nav-link"
+            >
               Type Chart
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/favorites" className="game-nav-link">
+            <Nav.Link as={Link} to="/p80/favorites" className="game-nav-link">
               ⭐ Favorites
             </Nav.Link>
           </Nav>

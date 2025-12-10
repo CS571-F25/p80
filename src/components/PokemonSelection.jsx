@@ -28,11 +28,29 @@ const weaknesses = {
 const PokemonSelection = ({ pokemon }) => {
   const [selectedPokemon] = useContext(PokemonContext);
   const [pokemonToDisplay, setPokemonToDisplay] = useState([]);
-  const [targetType, setTargetType] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+
+  // Load searchQuery and targetType from localStorage on mount
+  const [targetType, setTargetType] = useState(() => {
+    const saved = localStorage.getItem("pokemonFilterType");
+    return saved || "";
+  });
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const saved = localStorage.getItem("pokemonSearchQuery");
+    return saved || "";
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
+
+  // Save searchQuery to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("pokemonSearchQuery", searchQuery);
+  }, [searchQuery]);
+
+  // Save targetType to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("pokemonFilterType", targetType);
+  }, [targetType]);
 
   const filteredPokemon = useCallback(() => {
     let newFilter = pokemon.filter(

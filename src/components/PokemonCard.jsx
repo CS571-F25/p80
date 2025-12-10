@@ -17,13 +17,13 @@ const PokemonCard = (props) => {
     e.stopPropagation();
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     let updated;
-    
+
     if (savedFavorites.includes(props.id)) {
       updated = savedFavorites.filter((id) => id !== props.id);
     } else {
       updated = [...savedFavorites, props.id];
     }
-    
+
     setIsFavorited(!isFavorited);
     localStorage.setItem("favorites", JSON.stringify(updated));
   };
@@ -338,7 +338,7 @@ const PokemonCard = (props) => {
         }
       `}</style>
 
-      <div className={`flip-card-container ${isFlipped ? 'flipped' : ''}`}>
+      <div className={`flip-card-container ${isFlipped ? "flipped" : ""}`}>
         <div className="flip-card-inner">
           <div className="flip-card-front">
             <Card
@@ -351,7 +351,9 @@ const PokemonCard = (props) => {
               <button
                 className="favorite-star"
                 onClick={toggleFavorite}
-                title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+                title={
+                  isFavorited ? "Remove from favorites" : "Add to favorites"
+                }
               >
                 {isFavorited ? "★" : "☆"}
               </button>
@@ -371,9 +373,19 @@ const PokemonCard = (props) => {
                 {props.name}
               </Card.Header>
 
-              <Card.Body style={{ padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <Card.Body
+                style={{
+                  padding: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
                 <div>
-                  <div className="image-container" style={{ textAlign: "center", marginBottom: "15px" }}>
+                  <div
+                    className="image-container"
+                    style={{ textAlign: "center", marginBottom: "15px" }}
+                  >
                     {props.imageSrc && (
                       <img
                         src={props.imageSrc}
@@ -446,7 +458,9 @@ const PokemonCard = (props) => {
               <button
                 className="favorite-star"
                 onClick={toggleFavorite}
-                title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+                title={
+                  isFavorited ? "Remove from favorites" : "Add to favorites"
+                }
               >
                 {isFavorited ? "★" : "☆"}
               </button>
@@ -474,7 +488,15 @@ const PokemonCard = (props) => {
                       <span>{props.hp || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.hp || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.hp || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
@@ -484,7 +506,15 @@ const PokemonCard = (props) => {
                       <span>{props.attack || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.attack || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.attack || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
@@ -494,7 +524,15 @@ const PokemonCard = (props) => {
                       <span>{props.defense || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.defense || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.defense || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
@@ -504,7 +542,15 @@ const PokemonCard = (props) => {
                       <span>{props.specialAttack || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.specialAttack || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.specialAttack || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
@@ -514,7 +560,15 @@ const PokemonCard = (props) => {
                       <span>{props.specialDefense || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.specialDefense || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.specialDefense || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
@@ -524,28 +578,49 @@ const PokemonCard = (props) => {
                       <span>{props.speed || 0}</span>
                     </div>
                     <div className="stat-bar">
-                      <div className="stat-bar-fill" style={{ width: `${Math.min((props.speed || 0) / 255 * 100, 100)}%` }}></div>
+                      <div
+                        className="stat-bar-fill"
+                        style={{
+                          width: `${Math.min(
+                            ((props.speed || 0) / 255) * 100,
+                            100
+                          )}%`,
+                        }}
+                      ></div>
                     </div>
                   </div>
 
-                  <div style={{
-                    marginTop: "15px",
-                    padding: "12px",
-                    background: "rgba(0, 0, 0, 0.5)",
-                    borderRadius: "10px",
-                    border: "2px solid rgba(255, 255, 255, 0.3)",
-                  }}>
+                  <div
+                    style={{
+                      marginTop: "15px",
+                      padding: "12px",
+                      background: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "10px",
+                      border: "2px solid rgba(255, 255, 255, 0.3)",
+                    }}
+                  >
                     <div className="stat-label" style={{ marginBottom: "8px" }}>
                       <span>Total</span>
-                      <span>{(props.hp || 0) + (props.attack || 0) + (props.defense || 0) + (props.specialAttack || 0) + (props.specialDefense || 0) + (props.speed || 0)}</span>
+                      <span>
+                        {(props.hp || 0) +
+                          (props.attack || 0) +
+                          (props.defense || 0) +
+                          (props.specialAttack || 0) +
+                          (props.specialDefense || 0) +
+                          (props.speed || 0)}
+                      </span>
                     </div>
                     <div className="stat-label">
                       <span>Types</span>
-                      <span style={{ fontSize: "8px" }}>{props.types?.join(", ") || "None"}</span>
+                      <span style={{ fontSize: "8px" }}>
+                        {props.types?.join(", ") || "None"}
+                      </span>
                     </div>
                   </div>
 
-                  <p className="flip-hint" style={{ marginTop: "10px" }}>← Click to flip back</p>
+                  <p className="flip-hint" style={{ marginTop: "10px" }}>
+                    ← Click to flip back
+                  </p>
                 </div>
               </Card.Body>
             </Card>
