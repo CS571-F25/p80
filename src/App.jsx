@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import PokemonLayout from "./components/PokemonLayout";
 import PokemonLandingPage from "./components/PokemonLandingPage";
 import PokemonSelection from "./components/PokemonSelection";
@@ -80,7 +80,7 @@ function App() {
   return (
     <div className="App">
       <PokemonContext.Provider value={[selectedPokemon, setSelectedPokemon]}>
-        <BrowserRouter basename="/p80">
+        <HashRouter>
           <Routes>
             <Route path="/" element={<PokemonLayout />}>
               <Route index element={<PokemonLandingPage />} />
@@ -112,7 +112,7 @@ function App() {
               <Route path="*" element={<PokemonNotFoundPage />} />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </PokemonContext.Provider>
     </div>
   );
